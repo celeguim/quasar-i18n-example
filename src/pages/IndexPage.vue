@@ -1,22 +1,51 @@
 <template>
-  <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
+  <q-page padding>
+    <q-select
+      v-model="locale"
+      :options="localeOptions"
+      label="Quasar Language"
+      dense
+      borderless
+      emit-value
+      map-options
+      options-dense
+      style="max-width: 150px"
     />
+
+    <div>
+      {{ "key1: " + $t("key1") }}
+    </div>
+    <div>
+      {{ "key2: " + $t("key2") }}
+    </div>
+    <div>
+      key3:
+      <span v-html="content"></span>
+    </div>
   </q-page>
 </template>
 
 <script>
-import { defineComponent } from "vue";
-// import i18n from "boot/i18n";
-import { i18n } from "boot/i18n";
+import { ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
-console.log(i18n.global.t("success"));
-console.log(i18n);
+export default {
+  data() {
+    return {
+      content: this.$t("key3"),
+    };
+  },
 
-export default defineComponent({
-  name: "IndexPage",
-});
+  setup() {
+    const { locale } = useI18n({ useScope: "global" });
+
+    return {
+      locale,
+      localeOptions: [
+        { value: "en-US", label: "English" },
+        { value: "de", label: "German" },
+      ],
+    };
+  },
+};
 </script>
